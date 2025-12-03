@@ -64,8 +64,9 @@ foreach ($rss_arr->feeds as $rss) {
         "password" => $_ENV['INSTA_PW'],
         "title" => (string) $item->title,
         "url" => (string) $item->link,
-        "selection" => (string) strip_tags($item->description)
+        "selection" => (string) substr(strip_tags($item->description),0,255)
       ];
+      
       
       // Send the request and catch any errors
       $ch = curl_init($insta_url);
@@ -76,7 +77,7 @@ foreach ($rss_arr->feeds as $rss) {
         print "Curl error: " . curl_error($ch) . "\n";
       }
 
-      print ($output . "\n");
+      // print ($output . "\n");
       
       
       $i++;     
