@@ -43,6 +43,7 @@ foreach ($rss_arr->feeds as $rss) {
   
   // Loop through the RSS feeds
   foreach ($rss_feed as $feed) {
+    
     // Loop through each item in the feed
     foreach ($feed->item as $item) {
       // grab the publication date and convert to a timestamp
@@ -54,27 +55,35 @@ foreach ($rss_arr->feeds as $rss) {
         continue;
       }
 
+      // var_dump($item->link[0]);
+
       // OK, we have a new item. Let's post it to Instapaper. 
       // Build a POST array
       $post = [
         "username" => $_ENV['INSTA_USER'],
         "password" => $_ENV['INSTA_PW'],
-        "title" => $item->title,
-        "url" => $item->link
+        "title" => (string) $item->title,
+        "url" => (string) $item->link,
+        "selection" => (string) strip_tags($item->description)
       ];
+      
       // Send the request and catch any errors
       $ch = curl_init($insta_url);
+      curl_setopt($ch, CURLOPT_POST, true);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
       if (!$output = curl_exec($ch)) {
         print "Curl error: " . curl_error($ch) . "\n";
       }
+
+      print ($output . "\n");
+      
       
       $i++;     
     }
   }
   // set the last_updated time once we've processed all feeds.
-  $rss_arr->last_updated = time();    
+//  $rss_arr->last_updated = time();    
 }
 
 // Write back to feeds.json so we can store the last updated timestamp. 
