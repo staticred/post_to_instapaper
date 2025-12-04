@@ -1,7 +1,9 @@
 <?php
 
+$basedir = realpath(dirname(__FILE__));
+
 // Load Composer libraries
-require __DIR__ . '/vendor/autoload.php';
+require $basedir . '/vendor/autoload.php';
 
 // Grab values out of .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -18,7 +20,7 @@ $i = 0;
 $insta_url = "https://www.instapaper.com/api/add";
 
 // Load RSS data (Feeds & last updated date)
-if (!$rss_arr = json_decode(file_get_contents("feeds.json"))) {
+if (!$rss_arr = json_decode(file_get_contents($basedir . "/feeds.json"))) {
   die("Can't load JSON file.");
 }
 
