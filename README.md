@@ -13,15 +13,15 @@ The following composer libraries are required.
 * `vlucas/phpdotenv`
 
 ## Getting Started
-Download this repo and create a .env file that includes your Instapaper username and password.  
+Download this repo and create a .env file that includes your Instapaper username and password.
 **.env**
 ```
 INSTA_USER="username"
 INSTA_PW="password"
 ```
-Also, ensure that the `feeds.json` file is writable by the user running the script. 
+Run `composer install` to download the required Composer packages before running the script. An example `feeds.json` file has been included in the repo that you can modify for your own RSS feeds. Ensure it is writable by the user running the script. 
 
-Once this file has been created, and you have configured the feeds included in `feeds.json`, you are ready to run the PHP script. To do so, run the following in a terminal. This will read through your list of RSS feeds and grab all feed items added since the last time the script ran. The time the script was last run is saved in `feeds.json` in the `last_updated` attribute. When the script is complete, it will update the `last_updated` value in your `feeds.json` file. 
+Once the `.env` file has been created, and you have configured the feeds included in `feeds.json`, you are ready to run the PHP script. To do so, run the following in a terminal. This will read through your list of RSS feeds and grab all feed items added since the last time the script ran. The time the script was last run is saved in `feeds.json` in the `last_updated` attribute. When the script is complete, it will update the `last_updated` value in your `feeds.json` file. 
 
 ```
 php /path/to/post_to_instapaper/add_to_instapaper.php
