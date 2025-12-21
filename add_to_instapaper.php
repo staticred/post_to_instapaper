@@ -64,11 +64,13 @@ foreach ($rss_arr->feeds as $rss) {
   $rss_arr->last_updated = time();    
 }
 
-print sizeof($articles) . " articles processed.\n";
-
+// Sort the articles by publication date. This prevents bunching of articles
+// by source. 
 ksort($articles);
 
+// Loop through the articles and post them to Instapaper. 
 foreach ($articles as $item) {
+  // If it fails, let's log the failure. 
   if (!post_to_instapaper($item)) {
     error_log("Could not post {$item->title}");
     return false;
@@ -85,6 +87,21 @@ if (!file_put_contents("feeds.json", json_encode($rss_arr))) {
 // Print a status report. 
 print "Complete - processed {$i} items\n";
 
+/**
+ * Posts an item array to Instapaper
+ * 
+ * This function takes an array of feed details, and posts them to Instapaper.
+ *
+ * The array needs to contain the following keys:
+ *  - title
+ *  - url
+ *  - description
+ *
+ * @param array $item An item to post to Instapaper, including a title, URL,
+ *       and description
+ *
+ * @return bool  Returns true/false based on success.
+ */
 function post_to_instapaper($item) {
   
   // Instapaper Simple API URL:
@@ -112,7 +129,5 @@ function post_to_instapaper($item) {
   
   
 }
-
-
 
 
