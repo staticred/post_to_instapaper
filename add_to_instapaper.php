@@ -41,6 +41,7 @@ foreach ($rss_arr->feeds as $rss) {
         }
         exit();
     }
+        print "Processing {$rss->rss_url}...\n";
 
     // Loop through the RSS feeds
     foreach ($rss_feed as $feed) {
